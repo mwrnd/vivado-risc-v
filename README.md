@@ -82,6 +82,10 @@ For Genesys 2 use `BOARD=genesys2`
 For Nexys A7 100T use `BOARD=nexys-a7-100t`
 
 For Innova-2 use `BOARD=innova2`
+```
+source /tools/Xilinx/Vivado/2021.2/settings64.sh
+make  CONFIG=rocket64b4l2w  BOARD=innova2  bitstream
+```
 
 Some of available CONFIG values (See [rocket.scala](https://github.com/eugene-tarassov/vivado-risc-v/blob/master/src/main/scala/rocket.scala)):
 * 64-bit big RISC-V cores, Linux capable:
