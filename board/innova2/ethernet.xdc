@@ -1,0 +1,2 @@
+# External Ethernet not supported
+
