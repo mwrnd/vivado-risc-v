@@ -1,6 +1,7 @@
 
 # Innova-2 Flex - LEDs - A6=D19, B6=D18
 set_property PACKAGE_PIN A6 [get_ports LED0]
+set_property IOSTANDARD LVCMOS33 [get_ports LED0]
 
 
 
@@ -8,6 +9,8 @@ set_property PACKAGE_PIN A6 [get_ports LED0]
 # Innova-2 Flex - I2C (from OpenCAPI)
 set_property PACKAGE_PIN C2 [get_ports iic_main_scl_io]
 set_property PACKAGE_PIN B2 [get_ports iic_main_sda_io]
+set_property IOSTANDARD LVCMOS33 [get_ports iic_main_scl_io]
+set_property IOSTANDARD LVCMOS33 [get_ports iic_main_sda_io]
 
 
 
@@ -33,9 +36,11 @@ set_property CFGBVS GND [current_design]
 
 # PCIe Reset
 set_property PACKAGE_PIN F2 [get_ports pcie_perstn]
+set_property IOSTANDARD LVCMOS33 [get_ports pcie_perstn]
 
 # PCIe Clock
 set_property PACKAGE_PIN AB27 [get_ports {pcie_refclk_clk_p[0]}]
+create_clock -period 10.000 -name sys_clock_bufds [get_ports pcie_refclk_clk_p]
 
 # PCIe Interface
 set_property PACKAGE_PIN AA38 [get_ports {pcie_0_rxp[7]}]
@@ -168,9 +173,3 @@ set_property PACKAGE_PIN AM35 [get_ports {ddr4_rtl_0_dq[60]}]
 set_property PACKAGE_PIN AL34 [get_ports {ddr4_rtl_0_dq[61]}]
 set_property PACKAGE_PIN AL35 [get_ports {ddr4_rtl_0_dq[62]}]
 set_property PACKAGE_PIN AH33 [get_ports {ddr4_rtl_0_dq[63]}]
-
-set_property IOSTANDARD LVCMOS33 [get_ports LED0]
-set_property IOSTANDARD LVCMOS33 [get_ports iic_opencapi_scl_io]
-set_property IOSTANDARD LVCMOS33 [get_ports iic_opencapi_sda_io]
-set_property IOSTANDARD LVCMOS33 [get_ports pcie_perstn]
-create_clock -period 10.000 -name sys_clock_bufds [get_ports pcie_refclk_clk_p]

@@ -49,7 +49,7 @@ Alternatively, a Windows 10 machine with Ubuntu on Windows can be used to run th
 [Vitis 2021.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2021-1.html) or
 [Vitis 2020.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html) or
 [Vitis 2020.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html).
-Vitis installation includes Vivado Design Suite; there is no need to install Vivado separately.
+Vitis installation includes Vivado Design Suite - there is no need to install Vivado separately.
 
 Nexys Video and Nexys A7 100T are supported by free version of Vivado. KC705, VC707 and Genesys 2 require Vivado license.
 

@@ -47,7 +47,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# ethernet, ethernet, Rocket64b4l2w, uart, uart
+# ethernet, ethernet, rocket_module_name, uart, uart
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -188,7 +188,7 @@ if { $bCheckModules == 1 } {
    set list_check_mods "\ 
 ethernet\
 ethernet\
-Rocket64b4l2w\
+$rocket_module_name\
 uart\
 uart\
 "
@@ -319,7 +319,7 @@ proc create_root_design { parentCell } {
  ] $IIC
 
   # Create instance: RocketChip, and set properties
-  set block_name Rocket64b4l2w
+  set block_name $rocket_module_name
   set block_cell_name RocketChip
   if { [catch {set RocketChip [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}

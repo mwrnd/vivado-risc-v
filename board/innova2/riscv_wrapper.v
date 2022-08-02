@@ -28,8 +28,8 @@ module riscv_wrapper
     ddr4_rtl_0_reset_n,
     diff_clock_rtl_0_clk_n,
     diff_clock_rtl_0_clk_p,
-    iic_opencapi_scl_io,
-    iic_opencapi_sda_io,
+    iic_main_scl_io,
+    iic_main_sda_io,
     pcie_0_rxn,
     pcie_0_rxp,
     pcie_0_txn,
@@ -55,8 +55,8 @@ module riscv_wrapper
   output ddr4_rtl_0_reset_n;
   input diff_clock_rtl_0_clk_n;
   input diff_clock_rtl_0_clk_p;
-  inout iic_opencapi_scl_io;
-  inout iic_opencapi_sda_io;
+  inout iic_main_scl_io;
+  inout iic_main_sda_io;
   input [7:0]pcie_0_rxn;
   input [7:0]pcie_0_rxp;
   output [7:0]pcie_0_txn;
@@ -83,14 +83,14 @@ module riscv_wrapper
   wire ddr4_rtl_0_reset_n;
   wire diff_clock_rtl_0_clk_n;
   wire diff_clock_rtl_0_clk_p;
-  wire iic_opencapi_scl_i;
-  wire iic_opencapi_scl_io;
-  wire iic_opencapi_scl_o;
-  wire iic_opencapi_scl_t;
-  wire iic_opencapi_sda_i;
-  wire iic_opencapi_sda_io;
-  wire iic_opencapi_sda_o;
-  wire iic_opencapi_sda_t;
+  wire iic_main_scl_i;
+  wire iic_main_scl_io;
+  wire iic_main_scl_o;
+  wire iic_main_scl_t;
+  wire iic_main_sda_i;
+  wire iic_main_sda_io;
+  wire iic_main_sda_o;
+  wire iic_main_sda_t;
   wire [7:0]pcie_0_rxn;
   wire [7:0]pcie_0_rxp;
   wire [7:0]pcie_0_txn;
@@ -99,16 +99,16 @@ module riscv_wrapper
   wire [0:0]pcie_refclk_clk_n;
   wire [0:0]pcie_refclk_clk_p;
 
-  IOBUF iic_opencapi_scl_iobuf
-       (.I(iic_opencapi_scl_o),
-        .IO(iic_opencapi_scl_io),
-        .O(iic_opencapi_scl_i),
-        .T(iic_opencapi_scl_t));
-  IOBUF iic_opencapi_sda_iobuf
-       (.I(iic_opencapi_sda_o),
-        .IO(iic_opencapi_sda_io),
-        .O(iic_opencapi_sda_i),
-        .T(iic_opencapi_sda_t));
+  IOBUF iic_main_scl_iobuf
+       (.I(iic_main_scl_o),
+        .IO(iic_main_scl_io),
+        .O(iic_main_scl_i),
+        .T(iic_main_scl_t));
+  IOBUF iic_main_sda_iobuf
+       (.I(iic_main_sda_o),
+        .IO(iic_main_sda_io),
+        .O(iic_main_sda_i),
+        .T(iic_main_sda_t));
   riscv riscv_i
        (.LED0(LED0),
         .TxD_0(TxD_0),
@@ -128,12 +128,12 @@ module riscv_wrapper
         .ddr4_rtl_0_reset_n(ddr4_rtl_0_reset_n),
         .diff_clock_rtl_0_clk_n(diff_clock_rtl_0_clk_n),
         .diff_clock_rtl_0_clk_p(diff_clock_rtl_0_clk_p),
-        .iic_opencapi_scl_i(iic_opencapi_scl_i),
-        .iic_opencapi_scl_o(iic_opencapi_scl_o),
-        .iic_opencapi_scl_t(iic_opencapi_scl_t),
-        .iic_opencapi_sda_i(iic_opencapi_sda_i),
-        .iic_opencapi_sda_o(iic_opencapi_sda_o),
-        .iic_opencapi_sda_t(iic_opencapi_sda_t),
+        .iic_main_scl_i(iic_main_scl_i),
+        .iic_main_scl_o(iic_main_scl_o),
+        .iic_main_scl_t(iic_main_scl_t),
+        .iic_main_sda_i(iic_main_sda_i),
+        .iic_main_sda_o(iic_main_sda_o),
+        .iic_main_sda_t(iic_main_sda_t),
         .pcie_0_rxn(pcie_0_rxn),
         .pcie_0_rxp(pcie_0_rxp),
         .pcie_0_txn(pcie_0_txn),
