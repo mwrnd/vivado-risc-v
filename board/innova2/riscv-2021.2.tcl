@@ -185,13 +185,7 @@ xilinx.com:ip:xlconstant:1.1\
 ##################################################################
 set bCheckModules 1
 if { $bCheckModules == 1 } {
-   set list_check_mods "\ 
-ethernet\
-ethernet\
-$rocket_module_name\
-uart\
-uart\
-"
+   set list_check_mods "ethernet $rocket_module_name uart"
 
    set list_mods_missing ""
    common::send_gid_msg -ssname BD::TCL -id 2020 -severity "INFO" "Checking if the following modules exist in the project's sources: $list_check_mods ."
@@ -319,9 +313,8 @@ proc create_root_design { parentCell } {
  ] $IIC
 
   # Create instance: RocketChip, and set properties
-  set block_name $rocket_module_name
   set block_cell_name RocketChip
-  if { [catch {set RocketChip [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
+  if { [catch {set RocketChip [create_bd_cell -type module -reference $rocket_module_name $block_cell_name] } errmsg] } {
      catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
      return 1
    } elseif { $RocketChip eq "" } {
