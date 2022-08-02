@@ -22,7 +22,10 @@ Latest Xilinx tools (Ver. 2020.1+) support debugging of RISC-V software over JTA
 [Xilinx KC705](https://www.xilinx.com/products/boards-and-kits/ek-k7-kc705-g.html) or
 [Digilent Genesys 2](https://reference.digilentinc.com/reference/programmable-logic/genesys-2/start) or
 [Digilent Nexys Video](https://reference.digilentinc.com/reference/programmable-logic/nexys-video/start) or
-[Digilent Nexys A7 100T](https://reference.digilentinc.com/reference/programmable-logic/nexys-a7/start) board.
+[Digilent Nexys A7 100T](https://reference.digilentinc.com/reference/programmable-logic/nexys-a7/start) or
+[Innova-2 Flex SmartNIC MNV303212A-ADLT](https://www.nvidia.com/en-us/networking/ethernet/innova-2-flex/)
+board.
+
 
 VC707 allows to prototype more powerful system: up to 8 64-bit RISC-V cores, up to 100MHz clock speed, 1GB RAM.
 
@@ -31,6 +34,8 @@ KC705 and Genesys 2 are as fast as VC707, but have slightly smaller FPGA - up to
 Nexys Video is several times less expensive, academic discount is avaialble. It supports up to 2 cores, up to 50MHz clock speed.
 
 Nexys A7 100T is least expensive supported board. It has small FPGA and only 128MB RAM, barely enough to run Linux on a single core RISC-V at 50MHz.
+
+Innova-2 Flex supports 4 64-bit RISC-V cores, up to 62.5MHz clock speed, and 4GB RAM, but no physical Ethernet or SD Card. RISC-V UART, Ethernet, and RAM are accessible over PCIe XDMA. No external connections other than JTAG are required. Vivado 2021.2 is currently supported.
 
 ## Workstation
 [Ubuntu 20 LTS](https://ubuntu.com/download/desktop) machine with min 32GB RAM is recommended.
@@ -44,7 +49,7 @@ Alternatively, a Windows 10 machine with Ubuntu on Windows can be used to run th
 [Vitis 2021.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2021-1.html) or
 [Vitis 2020.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html) or
 [Vitis 2020.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html).
-Vitis installation includes Vivado Design Suite – there is no need to install Vivado separately.
+Vitis installation includes Vivado Design Suite; there is no need to install Vivado separately.
 
 Nexys Video and Nexys A7 100T are supported by free version of Vivado. KC705, VC707 and Genesys 2 require Vivado license.
 
@@ -75,6 +80,8 @@ For VC707, use `BOARD=vc707`
 For Genesys 2 use `BOARD=genesys2`
 
 For Nexys A7 100T use `BOARD=nexys-a7-100t`
+
+For Innova-2 use `BOARD=innova2`
 
 Some of available CONFIG values (See [rocket.scala](https://github.com/eugene-tarassov/vivado-risc-v/blob/master/src/main/scala/rocket.scala)):
 * 64-bit big RISC-V cores, Linux capable:
