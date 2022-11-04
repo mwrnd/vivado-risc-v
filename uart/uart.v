@@ -90,7 +90,7 @@ always @(posedge clock)
 
 // ------ RX/TX
 
-`define fifo_ptr_bits 4
+`define fifo_ptr_bits 8
 
 reg  [7:0] rx_buf [(1<<`fifo_ptr_bits)-1:0];
 reg  [`fifo_ptr_bits-1:0] rx_inp_pos;
