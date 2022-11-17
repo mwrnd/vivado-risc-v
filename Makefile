@@ -17,8 +17,9 @@ include board/$(BOARD)/Makefile.inc
 apt-install:
 	sudo apt update
 	sudo apt upgrade
-	sudo apt install default-jdk device-tree-compiler python curl gawk \
-	 libtinfo5 libmpc-dev gcc gcc-riscv64-linux-gnu gcc-8-riscv64-linux-gnu flex bison
+	sudo apt install build-essential bison curl default-jdk device-tree-compiler \
+	     flex gawk gcc gcc-8-riscv64-linux-gnu gcc-riscv64-linux-gnu libmpc-dev \
+	     libssh-dev libssl-dev libtinfo5 make python u-boot-tools screen
 
 # skip submodules which are not needed and take long time to update
 SKIP_SUBMODULES = torture software/gemmini-rocc-tests software/onnxruntime-riscv

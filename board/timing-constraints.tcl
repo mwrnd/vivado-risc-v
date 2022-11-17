@@ -111,7 +111,12 @@ if { [llength [get_pins -quiet -hier jtag/TCK]] } {
 
 if { $tck_pin != "" } {
   if { ! [llength [get_clocks -quiet -of_objects $tck_pin]] } {
-    create_clock -name jtag_clock -period 15.000 $tck_pin
+    set part_family [get_property FAMILY [get_parts $xilinx_part]]
+    if { { $part_family eq "kintexuplus" } || { $part_family eq "qkintexuplus" } } {
+      create_clock -name jtag_clock -period 20.000 $tck_pin
+    } else {
+      create_clock -name jtag_clock -period 15.000 $tck_pin
+    }
   }
   set jtag_clock [get_clocks -of_objects $tck_pin]
   set jtag_clock_period [get_property -min PERIOD $jtag_clock]

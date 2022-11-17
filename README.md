@@ -24,6 +24,7 @@ Latest Xilinx tools (Ver. 2020.1+) support debugging of RISC-V software over JTA
 [Digilent Nexys Video](https://digilent.com/reference/programmable-logic/nexys-video/start) or
 [Digilent Nexys A7 100T](https://digilent.com/reference/programmable-logic/nexys-a7/start) or
 [Digilent Arty A7 100T](https://digilent.com/reference/programmable-logic/arty-a7/start) board.
+[Innova-2 Flex SmartNIC MNV303212A-ADLT](https://www.nvidia.com/en-us/networking/ethernet/innova-2-flex/) board.
 
 VC707 allows to prototype more powerful system: up to 8 64-bit RISC-V cores, up to 100MHz clock speed, 1GB RAM.
 
@@ -32,6 +33,8 @@ KC705 and Genesys 2 are as fast as VC707, but have slightly smaller FPGA - up to
 Nexys Video is several times less expensive, academic discount is avaialble. It supports up to 2 cores, up to 50MHz clock speed.
 
 Nexys A7 100T and Arty A7 100T are least expensive supported boards. They have small FPGA, barely enough to run Linux on a single core RISC-V at 50MHz.
+
+Innova-2 Flex supports 4 64-bit RISC-V cores, up to 62.5MHz clock speed, and 4GB RAM, but no physical Ethernet or SD Card. RISC-V UART, Ethernet, and RAM are accessible over PCIe XDMA. No external connections other than JTAG are required. Vivado 2021.2 is currently supported.
 
 ## Workstation
 [Ubuntu 20 LTS](https://ubuntu.com/download/desktop) machine with min 32GB RAM is recommended.
@@ -47,7 +50,7 @@ Vitis
 [2021.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/2021-1.html) or
 [2020.2](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html) or
 [2020.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html).
-Vitis installation includes Vivado Design Suite – there is no need to install Vivado separately.
+Vitis installation includes Vivado Design Suite, there is no need to install Vivado separately.
 
 Nexys Video, Nexys A7 100T and Arty A7 100T are supported by free version of Vivado. KC705, VC707 and Genesys 2 require Vivado license.
 
@@ -80,6 +83,12 @@ For Genesys 2 use `BOARD=genesys2`
 For Nexys A7 100T use `BOARD=nexys-a7-100t`
 
 For Arty A7 100T use `BOARD=arty-a7-100t`
+
+For Innova-2 use `BOARD=innova2`
+```
+source /tools/Xilinx/Vivado/2021.2/settings64.sh
+make  CONFIG=rocket64b4l2w  BOARD=innova2  bitstream
+```
 
 Some of available CONFIG values (See [rocket.scala](https://github.com/eugene-tarassov/vivado-risc-v/blob/master/src/main/scala/rocket.scala)):
 * 64-bit big RISC-V cores, Linux capable:
