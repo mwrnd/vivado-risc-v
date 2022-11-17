@@ -27,14 +27,6 @@ u250          Rocket.*b[2-9][0-9].* 80.0
 u250          Rocket.*b1[0-9].*     100.0
 u250          Rocket.*              125.0
 
-innova2       Rocket.*l2w?          62.5
-innova2       Rocket64x1            50.0
-innova2       Rocket64.*gem         31.25
-innova2       Rocket64[xyz].*       31.25
-innova2       Rocket.*b[2-9][0-9].* 62.5
-innova2       Rocket.*b1[0-9].*     80.0
-innova2       Rocket.*              100
-
 .*            Rocket.*gem       20.0
 .*            Rocket64[xyz].*   20.0
 .*            Rocket.*l2w?      31.25

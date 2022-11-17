@@ -177,4 +177,3 @@ if { [llength [get_pins -quiet -hier qdma_0/axi_aclk]] } {
   set_max_delay -from $pcie_clock -to $iic_clock -datapath_only $iic_clock_period
   set_max_delay -from [get_ports pcie_perstn] -to $pcie_clock -datapath_only 40.0
 }
-
