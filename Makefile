@@ -346,3 +346,4 @@ jtag-boot: $(bitstream) linux-stable/arch/riscv/boot/Image debian-riscv64/ramdis
 
 vivado-gui: $(proj_time)
 	vivado $(proj_file)
+
