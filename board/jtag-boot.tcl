@@ -19,5 +19,6 @@ dow -clear workspace/boot.elf
 rwr a0 0
 rwr a1 0x10080
 rwr s0 0x80000000
+rwr pc 0x80000000
 puts {Starting CPU}
 con

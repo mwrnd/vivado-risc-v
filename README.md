@@ -38,7 +38,7 @@ Innova-2 Flex supports 4 64-bit RISC-V cores, up to 62.5MHz clock speed, and 4GB
 
 ## Workstation
 [Ubuntu 20 LTS](https://ubuntu.com/download/desktop) machine with min 32GB RAM is recommended.
-sudo access required.
+`sudo` access required.
 
 Alternatively, a Windows 10 machine with Ubuntu on Windows can be used to run the tools, see [Running RISC-V tools on Windows](docs/ubuntu-on-windows.md).
 
@@ -52,7 +52,7 @@ Vitis
 [2020.1](https://www.xilinx.com/support/download/index.html/content/xilinx/en/downloadNav/vitis/archive-vitis.html).
 Vitis installation includes Vivado Design Suite, there is no need to install Vivado separately.
 
-Nexys Video, Nexys A7 100T and Arty A7 100T are supported by free version of Vivado. KC705, VC707 and Genesys 2 require Vivado license.
+Nexys Video, Nexys A7 100T and Arty A7 100T are supported by free version of Vivado. KC705, VC707, Genesys 2, and Innova-2 require Vivado license.
 
 If using a Digilent board, install [Vivado Board Files for Digilent FPGA Boards](https://github.com/Digilent/vivado-boards).
 Note: installation instructions tell to "navigate to its 'data/boards/board_files' directory".
@@ -88,6 +88,7 @@ For Innova-2 use `BOARD=innova2`
 ```
 source /tools/Xilinx/Vivado/2021.2/settings64.sh
 make  CONFIG=rocket64b4l2w  BOARD=innova2  bitstream
+make  CONFIG=rocket64b4l2w  BOARD=innova2  jtag-boot
 ```
 
 Some of available CONFIG values (See [rocket.scala](https://github.com/eugene-tarassov/vivado-risc-v/blob/master/src/main/scala/rocket.scala)):

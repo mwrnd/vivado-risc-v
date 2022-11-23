@@ -4,5 +4,5 @@ CFG_DEVICE  ?= SPIx8 -size 128
 CFG_PART    ?= mt25qu512-spi-x1_x2_x4_x8
 CFG_FORMAT   = bin
 ROOTFS      ?= NFS
-MEMORY_SIZE ?= 0x200000000
+MEMORY_SIZE ?= 0x80000000
 

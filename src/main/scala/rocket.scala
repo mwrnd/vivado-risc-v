@@ -237,6 +237,14 @@ class Rocket64b4l2w extends Config(
   new WithNBigCores(4)    ++
   new RocketWideBusConfig)
 
+/* Innova-2 Rocket64-b6-l2w-8g */
+class Rocket64b6l2w extends Config(
+  new WithInclusiveCache  ++
+  new WithNBreakpoints(8) ++
+  new WithNBigCores(6)    ++
+  new WithExtMemSize(0x200000000L) ++
+  new RocketWideBusConfig)
+
 class Rocket64b8 extends Config(
   new WithNBreakpoints(8) ++
   new WithNBigCores(8)    ++

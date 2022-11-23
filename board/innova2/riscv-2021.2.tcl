@@ -47,7 +47,7 @@ if { [string first $scripts_vivado_version $current_vivado_version] == -1 } {
 
 # The design that will be created by this Tcl script contains the following 
 # module references:
-# ethernet, ethernet, rocket_module_name, uart, uart
+# ethernet, ethernet, $rocket_module_name, uart, uart
 
 # Please add the sources of those modules before sourcing this Tcl script.
 
@@ -319,7 +319,7 @@ proc create_root_design { parentCell } {
  ] $IIC
 
   # Create instance: RocketChip, and set properties
-  # set block_name Rocket64b4l2w
+  # set block_name Rocket64????????
   # set block_cell_name RocketChip
   # if { [catch {set RocketChip [create_bd_cell -type module -reference $block_name $block_cell_name] } errmsg] } {
   #    catch {common::send_gid_msg -ssname BD::TCL -id 2095 -severity "ERROR" "Unable to add referenced block <$block_name>. Please add the files for ${block_name}'s definition into the project."}
@@ -344,7 +344,7 @@ proc create_root_design { parentCell } {
      return 1
    }
     set_property -dict [ list \
-   CONFIG.BAUD_RATE {9600} \
+   CONFIG.BAUD_RATE {115200} \
  ] $UART
 
   # Create instance: UART2, and set properties
@@ -358,7 +358,7 @@ proc create_root_design { parentCell } {
      return 1
    }
     set_property -dict [ list \
-   CONFIG.BAUD_RATE {9600} \
+   CONFIG.BAUD_RATE {115200} \
  ] $UART2
 
   # Create instance: axi_bram_ctrl_0, and set properties
@@ -466,38 +466,45 @@ proc create_root_design { parentCell } {
   set smartconnect_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_0 ]
   set_property -dict [ list \
    CONFIG.NUM_CLKS {4} \
-   CONFIG.NUM_MI {10} \
+   CONFIG.NUM_MI {8} \
+   CONFIG.NUM_SI {1} \
  ] $smartconnect_0
 
   # Create instance: smartconnect_1, and set properties
   set smartconnect_1 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_1 ]
   set_property -dict [ list \
-   CONFIG.NUM_CLKS {2} \
-   CONFIG.NUM_SI {2} \
+   CONFIG.NUM_CLKS {3} \
+   CONFIG.NUM_SI {4} \
  ] $smartconnect_1
 
   # Create instance: smartconnect_2, and set properties
   set smartconnect_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_2 ]
   set_property -dict [ list \
-   CONFIG.NUM_CLKS {3} \
+   CONFIG.NUM_CLKS {2} \
    CONFIG.NUM_MI {2} \
-   CONFIG.NUM_SI {3} \
+   CONFIG.NUM_SI {1} \
  ] $smartconnect_2
 
-  # Create instance: smartconnect_3, and set properties
-  set smartconnect_3 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_3 ]
+  # Create instance: smartconnect_4, and set properties
+  set smartconnect_4 [ create_bd_cell -type ip -vlnv xilinx.com:ip:smartconnect:1.0 smartconnect_4 ]
   set_property -dict [ list \
-   CONFIG.NUM_CLKS {1} \
+   CONFIG.NUM_CLKS {2} \
+   CONFIG.NUM_MI {3} \
    CONFIG.NUM_SI {1} \
- ] $smartconnect_3
+ ] $smartconnect_4
 
   # Create instance: system_ila_0, and set properties
   set system_ila_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:system_ila:1.1 system_ila_0 ]
   set_property -dict [ list \
+   CONFIG.ALL_PROBE_SAME_MU_CNT {2} \
+   CONFIG.C_ADV_TRIGGER {true} \
    CONFIG.C_DATA_DEPTH {32768} \
+   CONFIG.C_EN_STRG_QUAL {1} \
    CONFIG.C_INPUT_PIPE_STAGES {1} \
    CONFIG.C_MON_TYPE {INTERFACE} \
    CONFIG.C_NUM_MONITOR_SLOTS {2} \
+   CONFIG.C_PROBE0_MU_CNT {2} \
+   CONFIG.C_SLOT {0} \
    CONFIG.C_SLOT_0_APC_EN {0} \
    CONFIG.C_SLOT_0_AXI_AR_SEL_DATA {1} \
    CONFIG.C_SLOT_0_AXI_AR_SEL_TRIG {1} \
@@ -510,8 +517,8 @@ proc create_root_design { parentCell } {
    CONFIG.C_SLOT_0_AXI_W_SEL_DATA {1} \
    CONFIG.C_SLOT_0_AXI_W_SEL_TRIG {1} \
    CONFIG.C_SLOT_0_INTF_TYPE {xilinx.com:interface:aximm_rtl:1.0} \
-   CONFIG.C_SLOT_0_MAX_RD_BURSTS {16} \
-   CONFIG.C_SLOT_0_MAX_WR_BURSTS {16} \
+   CONFIG.C_SLOT_0_MAX_RD_BURSTS {32} \
+   CONFIG.C_SLOT_0_MAX_WR_BURSTS {32} \
    CONFIG.C_SLOT_1_APC_EN {0} \
    CONFIG.C_SLOT_1_AXI_AR_SEL_DATA {1} \
    CONFIG.C_SLOT_1_AXI_AR_SEL_TRIG {1} \
@@ -524,6 +531,8 @@ proc create_root_design { parentCell } {
    CONFIG.C_SLOT_1_AXI_W_SEL_DATA {1} \
    CONFIG.C_SLOT_1_AXI_W_SEL_TRIG {1} \
    CONFIG.C_SLOT_1_INTF_TYPE {xilinx.com:interface:aximm_rtl:1.0} \
+   CONFIG.C_SLOT_1_MAX_RD_BURSTS {32} \
+   CONFIG.C_SLOT_1_MAX_WR_BURSTS {32} \
  ] $system_ila_0
 
   # Create instance: util_ds_buf, and set properties
@@ -561,7 +570,7 @@ proc create_root_design { parentCell } {
    CONFIG.PF3_DEVICE_ID_mqdma {9338} \
    CONFIG.PF3_SRIOV_VF_DEVICE_ID {A338} \
    CONFIG.axi_data_width {256_bit} \
-   CONFIG.axilite_master_en {true} \
+   CONFIG.axilite_master_en {false} \
    CONFIG.axilite_master_size {1} \
    CONFIG.axisten_freq {250} \
    CONFIG.cfg_mgmt_if {false} \
@@ -573,8 +582,8 @@ proc create_root_design { parentCell } {
    CONFIG.pf0_class_code_interface {00} \
    CONFIG.pf0_class_code_sub {80} \
    CONFIG.pf0_device_id {9038} \
-   CONFIG.pf0_msix_cap_pba_bir {BAR_1} \
-   CONFIG.pf0_msix_cap_table_bir {BAR_1} \
+   CONFIG.pf0_msix_cap_pba_bir {BAR_0} \
+   CONFIG.pf0_msix_cap_table_bir {BAR_0} \
    CONFIG.pf0_sub_class_interface_menu {Other_memory_controller} \
    CONFIG.pl_link_cap_max_link_speed {8.0_GT/s} \
    CONFIG.pl_link_cap_max_link_width {X8} \
@@ -602,45 +611,38 @@ proc create_root_design { parentCell } {
    CONFIG.CONST_WIDTH {1} \
  ] $xlconstant_0
 
-  # Create instance: xlconstant_2, and set properties
-  set xlconstant_2 [ create_bd_cell -type ip -vlnv xilinx.com:ip:xlconstant:1.1 xlconstant_2 ]
-  set_property -dict [ list \
-   CONFIG.CONST_VAL {0} \
- ] $xlconstant_2
-
   # Create interface connections
   connect_bd_intf_net -intf_net C0_SYS_CLK_0_1 [get_bd_intf_ports diff_clock_rtl_0] [get_bd_intf_pins ddr4_0/C0_SYS_CLK]
-  connect_bd_intf_net -intf_net Ethernet2_M_AXI [get_bd_intf_pins Ethernet2/M_AXI] [get_bd_intf_pins smartconnect_2/S02_AXI]
+  connect_bd_intf_net -intf_net Ethernet2_M_AXI [get_bd_intf_pins Ethernet2/M_AXI] [get_bd_intf_pins smartconnect_1/S02_AXI]
   connect_bd_intf_net -intf_net Ethernet2_TX_AXIS [get_bd_intf_pins Ethernet/RX_AXIS] [get_bd_intf_pins Ethernet2/TX_AXIS]
-  connect_bd_intf_net -intf_net Ethernet_M_AXI [get_bd_intf_pins Ethernet/M_AXI] [get_bd_intf_pins smartconnect_2/S01_AXI]
+  connect_bd_intf_net -intf_net Ethernet_M_AXI [get_bd_intf_pins Ethernet/M_AXI] [get_bd_intf_pins smartconnect_2/S00_AXI]
   connect_bd_intf_net -intf_net Ethernet_TX_AXIS [get_bd_intf_pins Ethernet/TX_AXIS] [get_bd_intf_pins Ethernet2/RX_AXIS]
-  connect_bd_intf_net -intf_net RocketChip_IO_AXI4 [get_bd_intf_pins RocketChip/IO_AXI4] [get_bd_intf_pins smartconnect_0/S01_AXI]
-  connect_bd_intf_net -intf_net RocketChip_MEM_AXI4 [get_bd_intf_pins RocketChip/MEM_AXI4] [get_bd_intf_pins smartconnect_3/S00_AXI]
+  connect_bd_intf_net -intf_net RocketChip_IO_AXI4 [get_bd_intf_pins RocketChip/IO_AXI4] [get_bd_intf_pins smartconnect_4/S00_AXI]
+  connect_bd_intf_net -intf_net RocketChip_MEM_AXI4 [get_bd_intf_pins RocketChip/MEM_AXI4] [get_bd_intf_pins smartconnect_1/S00_AXI]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTA [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTA] [get_bd_intf_pins axi_bram_ctrl_0_bram/BRAM_PORTA]
   connect_bd_intf_net -intf_net axi_bram_ctrl_0_BRAM_PORTB [get_bd_intf_pins axi_bram_ctrl_0/BRAM_PORTB] [get_bd_intf_pins axi_bram_ctrl_0_bram/BRAM_PORTB]
   connect_bd_intf_net -intf_net axi_iic_0_IIC [get_bd_intf_ports iic_main] [get_bd_intf_pins IIC/IIC]
   connect_bd_intf_net -intf_net ddr4_1_C0_DDR4 [get_bd_intf_ports ddr4_rtl_0] [get_bd_intf_pins ddr4_0/C0_DDR4]
   connect_bd_intf_net -intf_net pcie_refclk [get_bd_intf_ports pcie_refclk] [get_bd_intf_pins util_ds_buf/CLK_IN_D]
-  connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins UART/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M00_AXI]
+  connect_bd_intf_net -intf_net smartconnect_0_M00_AXI [get_bd_intf_pins UART2/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M00_AXI]
 connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_0_M00_AXI] [get_bd_intf_pins smartconnect_0/M00_AXI] [get_bd_intf_pins system_ila_0/SLOT_1_AXI]
   set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets smartconnect_0_M00_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M01_AXI [get_bd_intf_pins IIC/S_AXI] [get_bd_intf_pins smartconnect_0/M01_AXI]
+  connect_bd_intf_net -intf_net smartconnect_0_M01_AXI [get_bd_intf_pins Ethernet2/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M01_AXI]
   connect_bd_intf_net -intf_net smartconnect_0_M05_AXI [get_bd_intf_pins axi_bram_ctrl_0/S_AXI] [get_bd_intf_pins smartconnect_0/M05_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M07_AXI [get_bd_intf_pins Ethernet2/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M07_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M08_AXI [get_bd_intf_pins UART2/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M08_AXI]
-connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_0_M08_AXI] [get_bd_intf_pins smartconnect_0/M08_AXI] [get_bd_intf_pins system_ila_0/SLOT_0_AXI]
-  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets smartconnect_0_M08_AXI]
-  connect_bd_intf_net -intf_net smartconnect_0_M09_AXI [get_bd_intf_pins axi_gpio_3/S_AXI] [get_bd_intf_pins smartconnect_0/M09_AXI]
+  connect_bd_intf_net -intf_net smartconnect_0_M06_AXI [get_bd_intf_pins axi_gpio_3/S_AXI] [get_bd_intf_pins smartconnect_0/M06_AXI]
+  connect_bd_intf_net -intf_net smartconnect_0_M07_AXI [get_bd_intf_pins smartconnect_0/M07_AXI] [get_bd_intf_pins smartconnect_1/S03_AXI]
   connect_bd_intf_net -intf_net smartconnect_1_M00_AXI [get_bd_intf_pins ddr4_0/C0_DDR4_S_AXI] [get_bd_intf_pins smartconnect_1/M00_AXI]
   connect_bd_intf_net -intf_net smartconnect_2_M00_AXI [get_bd_intf_pins RocketChip/DMA_AXI4] [get_bd_intf_pins smartconnect_2/M00_AXI]
   connect_bd_intf_net -intf_net smartconnect_2_M01_AXI [get_bd_intf_pins smartconnect_1/S01_AXI] [get_bd_intf_pins smartconnect_2/M01_AXI]
-  connect_bd_intf_net -intf_net smartconnect_3_M00_AXI [get_bd_intf_pins smartconnect_1/S00_AXI] [get_bd_intf_pins smartconnect_3/M00_AXI]
+  connect_bd_intf_net -intf_net smartconnect_4_M00_AXI [get_bd_intf_pins UART/S_AXI_LITE] [get_bd_intf_pins smartconnect_4/M00_AXI]
+connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_4_M00_AXI] [get_bd_intf_pins smartconnect_4/M00_AXI] [get_bd_intf_pins system_ila_0/SLOT_0_AXI]
+  set_property HDL_ATTRIBUTE.DEBUG {true} [get_bd_intf_nets smartconnect_4_M00_AXI]
+  connect_bd_intf_net -intf_net smartconnect_4_M01_AXI [get_bd_intf_pins Ethernet/S_AXI_LITE] [get_bd_intf_pins smartconnect_4/M01_AXI]
   connect_bd_intf_net -intf_net smartconnect_4_M02_AXI [get_bd_intf_pins axi_gpio_1/S_AXI] [get_bd_intf_pins smartconnect_0/M02_AXI]
+  connect_bd_intf_net -intf_net smartconnect_4_M02_AXI1 [get_bd_intf_pins IIC/S_AXI] [get_bd_intf_pins smartconnect_4/M02_AXI]
   connect_bd_intf_net -intf_net smartconnect_4_M03_AXI [get_bd_intf_pins axi_gpio_0/S_AXI] [get_bd_intf_pins smartconnect_0/M03_AXI]
   connect_bd_intf_net -intf_net smartconnect_4_M04_AXI [get_bd_intf_pins axi_gpio_2/S_AXI] [get_bd_intf_pins smartconnect_0/M04_AXI]
-  connect_bd_intf_net -intf_net smartconnect_4_M06_AXI [get_bd_intf_pins Ethernet/S_AXI_LITE] [get_bd_intf_pins smartconnect_0/M06_AXI]
-  connect_bd_intf_net -intf_net xdma_0_M_AXI [get_bd_intf_pins smartconnect_2/S00_AXI] [get_bd_intf_pins xdma_0/M_AXI]
-  connect_bd_intf_net -intf_net xdma_0_M_AXI_LITE [get_bd_intf_pins smartconnect_0/S00_AXI] [get_bd_intf_pins xdma_0/M_AXI_LITE]
+  connect_bd_intf_net -intf_net xdma_0_M_AXI [get_bd_intf_pins smartconnect_0/S00_AXI] [get_bd_intf_pins xdma_0/M_AXI]
   connect_bd_intf_net -intf_net xdma_0_pcie_mgt [get_bd_intf_ports pcie_0] [get_bd_intf_pins xdma_0/pcie_mgt]
 
   # Create port connections
@@ -648,7 +650,7 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_0_M08_AXI] [get_bd_
   connect_bd_net -net DDR_clock [get_bd_pins ddr4_0/c0_ddr4_ui_clk] [get_bd_pins proc_sys_reset_1/slowest_sync_clk] [get_bd_pins smartconnect_0/aclk2] [get_bd_pins smartconnect_1/aclk1]
   connect_bd_net -net Ethernet_interrupt [get_bd_pins Ethernet/interrupt] [get_bd_pins xlconcat_0/In2]
   connect_bd_net -net RocketChip_aresetn [get_bd_pins RocketChip/aresetn] [get_bd_pins util_vector_logic_1/Op2]
-  connect_bd_net -net RocketChip_clock [get_bd_pins RocketChip/clock] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins smartconnect_0/aclk1] [get_bd_pins smartconnect_1/aclk] [get_bd_pins smartconnect_2/aclk1] [get_bd_pins smartconnect_3/aclk]
+  connect_bd_net -net RocketChip_clock [get_bd_pins RocketChip/clock] [get_bd_pins clk_wiz_0/clk_out1] [get_bd_pins smartconnect_0/aclk1] [get_bd_pins smartconnect_1/aclk] [get_bd_pins smartconnect_2/aclk1] [get_bd_pins smartconnect_4/aclk]
   connect_bd_net -net UART2_RTSn [get_bd_pins UART/CTSn] [get_bd_pins UART2/RTSn]
   connect_bd_net -net UART2_TxD [get_bd_pins UART/RxD] [get_bd_pins UART2/TxD]
   connect_bd_net -net UART_RTSn [get_bd_pins UART/RTSn] [get_bd_pins UART2/CTSn]
@@ -657,12 +659,12 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_0_M08_AXI] [get_bd_
   connect_bd_net -net axi_gpio_1_gpio_io_o [get_bd_pins axi_gpio_1/gpio_io_o] [get_bd_pins util_vector_logic_0/Op2] [get_bd_pins xlconcat_3/In7]
   connect_bd_net -net axi_gpio_3_gpio_io_o [get_bd_pins Ethernet2/status_vector] [get_bd_pins axi_gpio_3/gpio_io_o]
   connect_bd_net -net axi_iic_0_iic2intc_irpt [get_bd_pins IIC/iic2intc_irpt] [get_bd_pins xlconcat_0/In3]
-  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins Ethernet/clock] [get_bd_pins Ethernet2/clock] [get_bd_pins IIC/s_axi_aclk] [get_bd_pins UART/clock] [get_bd_pins UART2/clock] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_gpio_2/s_axi_aclk] [get_bd_pins axi_gpio_3/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out2] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins smartconnect_0/aclk] [get_bd_pins smartconnect_2/aclk] [get_bd_pins system_ila_0/clk]
+  connect_bd_net -net clk_wiz_0_clk_out2 [get_bd_pins Ethernet/clock] [get_bd_pins Ethernet2/clock] [get_bd_pins IIC/s_axi_aclk] [get_bd_pins UART/clock] [get_bd_pins UART2/clock] [get_bd_pins axi_bram_ctrl_0/s_axi_aclk] [get_bd_pins axi_gpio_0/s_axi_aclk] [get_bd_pins axi_gpio_1/s_axi_aclk] [get_bd_pins axi_gpio_2/s_axi_aclk] [get_bd_pins axi_gpio_3/s_axi_aclk] [get_bd_pins clk_wiz_0/clk_out2] [get_bd_pins proc_sys_reset_0/slowest_sync_clk] [get_bd_pins smartconnect_0/aclk] [get_bd_pins smartconnect_1/aclk2] [get_bd_pins smartconnect_2/aclk] [get_bd_pins smartconnect_4/aclk1] [get_bd_pins system_ila_0/clk]
   connect_bd_net -net clk_wiz_0_locked [get_bd_pins RocketChip/clock_ok] [get_bd_pins clk_wiz_0/locked] [get_bd_pins xlconcat_3/In1]
   connect_bd_net -net ddr4_1_c0_init_calib_complete [get_bd_pins RocketChip/mem_ok] [get_bd_pins ddr4_0/c0_init_calib_complete] [get_bd_pins xlconcat_3/In2]
   connect_bd_net -net interrupts [get_bd_pins RocketChip/interrupts] [get_bd_pins xlconcat_0/dout]
   connect_bd_net -net pcie_perstn [get_bd_ports pcie_perstn] [get_bd_pins resetn_inv_0/Op1] [get_bd_pins xdma_0/sys_rst_n] [get_bd_pins xlconcat_3/In4]
-  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins Ethernet2/async_resetn] [get_bd_pins IIC/s_axi_aresetn] [get_bd_pins UART/async_resetn] [get_bd_pins UART2/async_resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins axi_gpio_2/s_axi_aresetn] [get_bd_pins axi_gpio_3/s_axi_aresetn] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins proc_sys_reset_1/ext_reset_in] [get_bd_pins smartconnect_0/aresetn] [get_bd_pins smartconnect_1/aresetn] [get_bd_pins smartconnect_2/aresetn] [get_bd_pins smartconnect_3/aresetn] [get_bd_pins system_ila_0/resetn] [get_bd_pins util_vector_logic_1/Op1]
+  connect_bd_net -net proc_sys_reset_0_peripheral_aresetn [get_bd_pins Ethernet/async_resetn] [get_bd_pins Ethernet2/async_resetn] [get_bd_pins IIC/s_axi_aresetn] [get_bd_pins UART2/async_resetn] [get_bd_pins axi_bram_ctrl_0/s_axi_aresetn] [get_bd_pins axi_gpio_0/s_axi_aresetn] [get_bd_pins axi_gpio_1/s_axi_aresetn] [get_bd_pins axi_gpio_2/s_axi_aresetn] [get_bd_pins axi_gpio_3/s_axi_aresetn] [get_bd_pins proc_sys_reset_0/peripheral_aresetn] [get_bd_pins proc_sys_reset_1/ext_reset_in] [get_bd_pins smartconnect_0/aresetn] [get_bd_pins smartconnect_1/aresetn] [get_bd_pins smartconnect_2/aresetn] [get_bd_pins smartconnect_4/aresetn] [get_bd_pins system_ila_0/resetn] [get_bd_pins util_vector_logic_1/Op1]
   connect_bd_net -net proc_sys_reset_1_peripheral_aresetn [get_bd_pins ddr4_0/c0_ddr4_aresetn] [get_bd_pins proc_sys_reset_1/peripheral_aresetn]
   connect_bd_net -net qdma_0_user_lnk_up1 [get_bd_ports LED0] [get_bd_pins RocketChip/io_ok] [get_bd_pins xdma_0/user_lnk_up] [get_bd_pins xlconcat_3/In3]
   connect_bd_net -net reset [get_bd_pins ddr4_0/sys_rst] [get_bd_pins resetn_inv_0/Res] [get_bd_pins util_vector_logic_0/Op1] [get_bd_pins xlconcat_3/In6]
@@ -670,41 +672,31 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_0_M08_AXI] [get_bd_
   connect_bd_net -net util_ds_buf_IBUF_DS_ODIV2 [get_bd_pins util_ds_buf/IBUF_DS_ODIV2] [get_bd_pins xdma_0/sys_clk]
   connect_bd_net -net util_ds_buf_IBUF_OUT [get_bd_pins util_ds_buf/IBUF_OUT] [get_bd_pins xdma_0/sys_clk_gt]
   connect_bd_net -net util_vector_logic_0_Res [get_bd_pins RocketChip/sys_reset] [get_bd_pins util_vector_logic_0/Res] [get_bd_pins xlconcat_3/In0]
-  connect_bd_net -net util_vector_logic_1_Res [get_bd_pins Ethernet/async_resetn] [get_bd_pins util_vector_logic_1/Res]
-  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins smartconnect_0/aclk3] [get_bd_pins smartconnect_2/aclk2] [get_bd_pins xdma_0/axi_aclk]
+  connect_bd_net -net util_vector_logic_1_Res [get_bd_pins UART/async_resetn] [get_bd_pins util_vector_logic_1/Res]
+  connect_bd_net -net xdma_0_axi_aclk [get_bd_pins clk_wiz_0/clk_in1] [get_bd_pins smartconnect_0/aclk3] [get_bd_pins xdma_0/axi_aclk]
   connect_bd_net -net xlconcat_3_dout [get_bd_pins axi_gpio_2/gpio_io_i] [get_bd_pins xlconcat_3/dout]
   connect_bd_net -net xlconstant_0_dout [get_bd_pins Ethernet/mdio_int] [get_bd_pins Ethernet2/mdio_int] [get_bd_pins xlconcat_0/In1] [get_bd_pins xlconcat_0/In4] [get_bd_pins xlconcat_0/In5] [get_bd_pins xlconcat_0/In6] [get_bd_pins xlconcat_0/In7] [get_bd_pins xlconstant_0/dout]
 
   # Create address segments
-  assign_bd_address -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces Ethernet/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0] -force
-  assign_bd_address -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces Ethernet2/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0] -force
-  assign_bd_address -offset 0x000200000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces Ethernet2/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
-  assign_bd_address -offset 0x61000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs Ethernet2/S_AXI_LITE/reg0] -force
+  assign_bd_address -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0] -force
+  assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet2/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
   assign_bd_address -offset 0x60020000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs Ethernet/S_AXI_LITE/reg0] -force
   assign_bd_address -offset 0x60040000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs IIC/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60100000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs UART2/S_AXI_LITE/reg0] -force
   assign_bd_address -offset 0x60010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs UART/S_AXI_LITE/reg0] -force
-  assign_bd_address -offset 0x70200000 -range 0x00020000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x60710000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60720000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs axi_gpio_1/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60730000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs axi_gpio_2/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60740000 -range 0x00010000 -target_address_space [get_bd_addr_spaces RocketChip/IO_AXI4] [get_bd_addr_segs axi_gpio_3/S_AXI/Reg] -force
-  assign_bd_address -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces RocketChip/MEM_AXI4] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
-  assign_bd_address -offset 0x61000000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs Ethernet2/S_AXI_LITE/reg0] -force
-  assign_bd_address -offset 0x60020000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs Ethernet/S_AXI_LITE/reg0] -force
-  assign_bd_address -offset 0x60040000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs IIC/S_AXI/Reg] -force
-  assign_bd_address -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0] -force
-  assign_bd_address -offset 0x60100000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs UART2/S_AXI_LITE/reg0] -force
-  assign_bd_address -offset 0x60010000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs UART/S_AXI_LITE/reg0] -force
-  assign_bd_address -offset 0x70200000 -range 0x00020000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
-  assign_bd_address -offset 0x60710000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60720000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs axi_gpio_1/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60730000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs axi_gpio_2/S_AXI/Reg] -force
-  assign_bd_address -offset 0x60740000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI_LITE] [get_bd_addr_segs axi_gpio_3/S_AXI/Reg] -force
-  assign_bd_address -offset 0x000200000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
+  assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces RocketChip/MEM_AXI4] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
+  assign_bd_address -offset 0x60120000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs Ethernet2/S_AXI_LITE/reg0] -force
+  assign_bd_address -offset 0x60100000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs UART2/S_AXI_LITE/reg0] -force
+  assign_bd_address -offset 0x70200000 -range 0x00020000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs axi_bram_ctrl_0/S_AXI/Mem0] -force
+  assign_bd_address -offset 0x60710000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs axi_gpio_0/S_AXI/Reg] -force
+  assign_bd_address -offset 0x60720000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs axi_gpio_1/S_AXI/Reg] -force
+  assign_bd_address -offset 0x60730000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs axi_gpio_2/S_AXI/Reg] -force
+  assign_bd_address -offset 0x60740000 -range 0x00010000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs axi_gpio_3/S_AXI/Reg] -force
+  assign_bd_address -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK] -force
 
   # Exclude Address Segments
-  exclude_bd_addr_seg -offset 0x000200000000 -range 0x000200000000 -target_address_space [get_bd_addr_spaces Ethernet/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK]
+  exclude_bd_addr_seg -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK]
+  exclude_bd_addr_seg -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet2/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0]
+  exclude_bd_addr_seg -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0]
 
 
   # Restore current instance
