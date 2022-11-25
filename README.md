@@ -84,10 +84,9 @@ For Nexys A7 100T use `BOARD=nexys-a7-100t`
 
 For Arty A7 100T use `BOARD=arty-a7-100t`
 
-For Innova-2 use `BOARD=innova2`
+For Innova-2 use `BOARD=innova2`. `jtag-boot` will generate all artifacts, including bitstream files.
 ```
 source /tools/Xilinx/Vivado/2021.2/settings64.sh
-make  CONFIG=rocket64b4l2w  BOARD=innova2  bitstream
 make  CONFIG=rocket64b4l2w  BOARD=innova2  jtag-boot
 ```
 

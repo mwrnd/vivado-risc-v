@@ -695,8 +695,6 @@ connect_bd_intf_net -intf_net [get_bd_intf_nets smartconnect_4_M00_AXI] [get_bd_
 
   # Exclude Address Segments
   exclude_bd_addr_seg -offset 0x80000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet/M_AXI] [get_bd_addr_segs ddr4_0/C0_DDR4_MEMORY_MAP/C0_DDR4_ADDRESS_BLOCK]
-  exclude_bd_addr_seg -offset 0x00000000 -range 0x80000000 -target_address_space [get_bd_addr_spaces Ethernet2/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0]
-  exclude_bd_addr_seg -offset 0x00000000 -range 0x000100000000 -target_address_space [get_bd_addr_spaces xdma_0/M_AXI] [get_bd_addr_segs RocketChip/DMA_AXI4/reg0]
 
 
   # Restore current instance
